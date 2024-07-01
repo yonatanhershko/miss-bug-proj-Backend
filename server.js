@@ -1,9 +1,11 @@
 import express from 'express'
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+// import hgj from "../"
 
 
 const app = express()
+app.use(express.static('../miss-bug-starter-react'))
 
 
 
