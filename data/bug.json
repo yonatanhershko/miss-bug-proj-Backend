@@ -1,12 +1,5 @@
 [
     {
-        "_id": "0BmgK",
-        "title": "",
-        "description": "",
-        "severity": 0,
-        "createdAt": 1719838690979
-    },
-    {
         "_id": "ab1",
         "title": "Cannot save a new car",
         "description": "problem when clicking Save",
