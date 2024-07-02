@@ -14,8 +14,10 @@ app.use(express.json())
 app.get('/api/bug', (req, res) => {
     const filterBy = {
         title: req.query.title,
-        severity: +req.query.severity
+        severity: +req.query.severity,
+        labels : req.query.labels
     }
+    console.log(filterBy);
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => {

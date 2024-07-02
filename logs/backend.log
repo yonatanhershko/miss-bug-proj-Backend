@@ -4,3 +4,12 @@
 1.7.2024, 16:00:46 - ERROR - Cannot get bug | Cannot find bug - :ab1
 1.7.2024, 16:00:46 - ERROR - Cannot get bug | Cannot find bug - :ab1
 1.7.2024, 17:10:38 - ERROR - Cannot get bug | Cannot find bug - MG7ah
+2.7.2024, 15:28:34 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:28:41 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:28:43 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:31:09 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:38:47 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:40:13 - ERROR - Cannot get bugs | TypeError: Cannot read properties of undefined (reading 'some')
+2.7.2024, 15:50:29 - ERROR - Cannot get bug | Cannot find bug - save
+2.7.2024, 15:52:10 - ERROR - Cannot get bug | Cannot find bug - save
+2.7.2024, 15:53:12 - ERROR - Cannot get bug | Cannot find bug - save
