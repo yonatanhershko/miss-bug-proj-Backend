@@ -35,10 +35,10 @@ function query(filterBy = {}) {
                 bugs = sortBugs(bugs, filterBy.sortBy, sortDir)
             }
 
-            // if (filterBy.pageIdx !== undefined) {
-            //     const startIdx = filterBy.pageIdx * PAGE_SIZE
-            //     bugs = bugs.slice(startIdx, startIdx + PAGE_SIZE)
-            // }
+            if (filterBy.pageIdx !== undefined) {
+                const startIdx = filterBy.pageIdx * PAGE_SIZE
+                bugs = bugs.slice(startIdx, startIdx + PAGE_SIZE)
+            }
 
             return bugs
         })
