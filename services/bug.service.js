@@ -10,6 +10,8 @@ export const bugService = {
     save
 }
 
+const PAGE_SIZE = 3
+
 function query(filterBy = {}) {
     return Promise.resolve(bugs)
         .then(bugs => {
@@ -20,8 +22,42 @@ function query(filterBy = {}) {
             if (filterBy.severity) {
                 bugs = bugs.filter(bug => bug.severity >= filterBy.severity)
             }
+            if (filterBy.labels && filterBy.labels.length) {
+                bugs = bugs.filter(bug =>
+                    bug.labels.some(label => filterBy.labels.includes(label))
+                )
+            }
+            if (filterBy.labels) {
+                bugs = bugs.filter(bug => bug.labels >= filterBy.labels)
+            }
+            if (filterBy.sortBy) {
+                const sortDir = filterBy.sortDir === 'desc' ? -1 : 1;
+                bugs = sortBugs(bugs, filterBy.sortBy, sortDir);
+            }
+
+            if (filterBy.pageIdx !== undefined) {
+                const startIdx = filterBy.pageIdx * PAGE_SIZE
+                bugs = bugs.slice(startIdx, startIdx + PAGE_SIZE)
+            }
+
             return bugs
         })
+}
+
+
+function sortBugs(bugs, sortBy = 'title', sortDir = 1) {
+    return bugs.sort((a, b) => {
+        switch (sortBy) {
+            case 'title':
+                return sortDir * a.title.localeCompare(b.title);
+            case 'severity':
+                return sortDir * (a.severity - b.severity);
+            case 'createdAt':
+                return sortDir * (a.createdAt - b.createdAt);
+            default:
+                return 0;
+        }
+    });
 }
 
 function getById(bugId) {
