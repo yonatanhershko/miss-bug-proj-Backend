@@ -25,10 +25,12 @@ function query(filterBy = {}) {
             }
             if (filterBy.labels && filterBy.labels.length) {
                 bugs = bugs.filter(bug =>
-                    bug.labels.some((label) =>{ console.log('bug test',bug);
-                        return filterBy.labels.includes(label)})
-                    
-                ) 
+                    bug.labels.some((label) => {
+                        console.log('bug test', bug);
+                        return filterBy.labels.includes(label)
+                    })
+
+                )
             }
             if (filterBy.sortBy) {
                 const sortDir = filterBy.sortDir === 'desc' ? -1 : 1
@@ -66,20 +68,31 @@ function getById(bugId) {
     return Promise.resolve(bug)
 }
 
-function remove(bugId) {
+function remove(bugId, loggedinUser) {
     const bugIdx = bugs.findIndex(bug => bug._id === bugId)
     if (bugIdx < 0) return Promise.reject('Cannot find bug - ' + bugId)
+    const bug = bugs[idx]
+    if (!loggedinUser.isAdmin &&
+        bug.creator._id !== loggedinUser._id) {
+        return Promise.reject('Not your bug')
+    }
     bugs.splice(bugIdx, 1)
     return _saveBugsToFile().then(() => `bug (${bugId}) removed!`)
 }
 
 
-function save(bugToSave) {
+function save(bugToSave, loggedinUser) {
     if (bugToSave._id) {
         const bugIdx = bugs.findIndex(bug => bug._id === bugToSave._id)
-        bugs[bugIdx] = bugToSave
-    } else {
+        if (!loggedinUser.isAdmin &&
+            carToUpdate.creator._id !== loggedinUser._id) {
+                return Promise.reject('Not your bug')
+            }
+            bugs[bugIdx] = bugToSave
+    }
+    else {
         bugToSave._id = utilService.makeId()
+        bugToSave.creator = loggedinUser
         bugs.unshift(bugToSave)
     }
 
