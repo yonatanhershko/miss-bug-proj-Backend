@@ -5,9 +5,8 @@
   "main": "service.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon --ignore \"./data\" server.js"
+    "dev": "set SECRET1=Yona-Tan-1234 & nodemon --ignore \"./data\" server.js"
   },
   "author": "Me",
   "license": "ISC",

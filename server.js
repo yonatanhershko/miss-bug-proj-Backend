@@ -14,14 +14,14 @@ app.use(express.json())
 
 app.get('/api/bug', (req, res) => {
     const filterBy = {
-        title: req.query.title,
-        severity: +req.query.severity,
-        labels: req.query.labels,
-        sortBy: req.query.sortBy,
+        title: req.query.title || '',
+        severity: +req.query.severity || 0,
+        labels: req.query.labels || '',
+        sortBy: req.query.sortBy || {},
         sortDir: req.query.sortDir === 'desc' ? -1 : 1,
-        pageIdx: req.query.pageIdx
+        pageIdx: req.query.pageIdx || 0
     }
-    console.log(filterBy);
+    console.log(filterBy)
     bugService.query(filterBy)
         .then(bugs => res.send(bugs))
         .catch(err => {
@@ -42,7 +42,7 @@ app.post('/api/bug', (req, res) => {
         labels: req.body.labels || [],
         createdAt: req.body.createdAt ? +req.body.createdAt : Date.now()
     }
-    bugService.save(bugToSave,loggedinUser)
+    bugService.save(bugToSave, loggedinUser)
         .then(bug => res.send(bug))
         .catch((err) => {
             loggerService.error('Cannot save bug', err)
@@ -64,7 +64,7 @@ app.put('/api/bug', (req, res) => {
         labels: req.body.labels || [],
         createdAt: req.body.createdAt ? +req.body.createdAt : Date.now()
     }
-    bugService.save(bugToSave,loggedinUser)
+    bugService.save(bugToSave, loggedinUser)
         .then(bug => res.send(bug))
         .catch((err) => {
             loggerService.error('Cannot save bug', err)
@@ -113,7 +113,7 @@ app.delete('/api/bug/:bugId', (req, res) => {
     if (!loggedinUser) return res.status(401).send('Cannot add bug')
 
     const { bugId } = req.params
-    bugService.remove(bugId,loggedinUser)
+    bugService.remove(bugId, loggedinUser)
         .then(() => res.send(`Bug (${bugId}) removed!`))
         .catch((err) => {
             loggerService.error('Cannot remove bug', err)
@@ -122,6 +122,26 @@ app.delete('/api/bug/:bugId', (req, res) => {
 
 })
 
+
+app.get('/api/user', (req, res) => {
+    userService.query()
+        .then(users => res.send(users))
+        .catch(err => {
+            loggerService.error('Cannot load users', err)
+            res.status(400).send('Cannot load users')
+        })
+})
+
+app.get('/api/user/:userId', (req, res) => {
+    const { userId } = req.params
+
+    userService.getById(userId)
+        .then(user => res.send(user))
+        .catch(err => {
+            loggerService.error('Cannot load user', err)
+            res.status(400).send('Cannot load user')
+        })
+})
 
 // Auth API
 app.post('/api/auth/login', (req, res) => {
@@ -141,7 +161,7 @@ app.post('/api/auth/login', (req, res) => {
 
 app.post('/api/auth/signup', (req, res) => {
     const credentials = req.body
-    
+
     userService.save(credentials)
         .then(user => {
             if (user) {
@@ -160,5 +180,7 @@ app.post('/api/auth/logout', (req, res) => {
 })
 
 
-
-app.listen(3030, () => console.log('Server ready at port 3030!'))
+const PORT = process.env.PORT || 3030
+app.listen(PORT, () =>
+    loggerService.info(`Server listening on port http://127.0.0.1:${PORT}/`)
+)
